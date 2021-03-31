@@ -8,7 +8,6 @@ export class Contato {
     constructor( nome: string, email: string ) {
         this.nome = nome;
         this.email = email;
-        this.favorito = false;
     }
     
 }
