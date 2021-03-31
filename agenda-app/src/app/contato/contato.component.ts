@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ContatoService } from '../contato.service';
 
 @Component({
   selector: 'app-contato',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContatoComponent implements OnInit {
 
-  constructor() { }
+  formulario: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private service: ContatoService
+  ) { }
 
   ngOnInit(): void {
+    this.formulario = this.fb.group({
+      nome: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]]
+    })
+  }
+
+  submit() {
+    console.log(this.formulario.value)
+    
+    // this.service
+    //     .salvar()
+    //     .subscribe( response => {
+    //     console.log(response)
+    // })
   }
 
 }

@@ -1,1 +1,13 @@
-<p>contato works!</p>
+<mat-toolbar>Contatos</mat-toolbar>
+<form [formGroup]="formulario" (ngSubmit)="submit()">
+    <mat-form-field class="full-width">
+        <mat-label> Nome </mat-label>
+        <input matInput placeholder="Digite seu nome" formControlName="nome" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label> Email </mat-label>
+        <input matInput placeholder="Digite seu email" formControlName="email" />
+    </mat-form-field>
+    <button mat-button color='primary' [disabled]="!formulario.valid" > Adicionar </button>
+</form>
