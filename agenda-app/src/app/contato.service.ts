@@ -13,11 +13,10 @@ export class ContatoService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) { };
 
   salvar( contato: Contato ): Observable<Contato> {
     return this.http.post<Contato>(this.url, contato);
-  }
+  };
 
-  
 }
