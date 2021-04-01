@@ -37,10 +37,11 @@ public class ContatoController {
 
     @PatchMapping("{id}/favorito")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void favorite( @PathVariable Integer id, @RequestBody Boolean favorito ) {
+    public void favorite( @PathVariable Integer id ) {
         Optional<Contato> contato = contatoRepository.findById(id);
         contato.ifPresent( c -> {
-            c.setFavorito(favorito);
+            boolean favorito = c.getFavorito() == Boolean.TRUE;
+            c.setFavorito(!favorito);
             contatoRepository.save(c);
         });
     }

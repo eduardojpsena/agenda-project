@@ -29,14 +29,23 @@ export class ContatoComponent implements OnInit {
       nome: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]]
     })
-  }
+  };
+
+  favoritar(contato: Contato) {
+    this.service
+      .favorito(contato)
+      .subscribe(response => {
+        contato.favorito = !contato.favorito;
+      })
+
+  };
 
   listarContatos() {
     this.service
-        .listar()
-        .subscribe( response => {
-          this.contatos = response;
-    })
+      .listar()
+      .subscribe(response => {
+        this.contatos = response;
+      })
   };
 
   submit() {
@@ -44,10 +53,10 @@ export class ContatoComponent implements OnInit {
     const contato: Contato = new Contato(formValues.nome, formValues.email);
     contato.favorito = false;
     this.service
-        .salvar(contato)
-        .subscribe( response => {
+      .salvar(contato)
+      .subscribe(response => {
         this.contatos.push(response);
-    })
+      })
   };
 
 }
