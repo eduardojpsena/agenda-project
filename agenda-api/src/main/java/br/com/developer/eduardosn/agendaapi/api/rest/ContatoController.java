@@ -4,6 +4,8 @@ import br.com.developer.eduardosn.agendaapi.mode.entity.Contato;
 import br.com.developer.eduardosn.agendaapi.model.repository.ContatoRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +26,25 @@ public class ContatoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Contato save( @RequestBody Contato contato ) {
+
         return contatoRepository.save(contato);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete( @PathVariable Integer id ) {
+
         contatoRepository.deleteById(id);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Contato> list() {
-        return contatoRepository.findAll();
+    public Page<Contato> list(
+            @RequestParam(value = "page", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "size", defaultValue = "10") Integer tamanhoPagina
+    ) {
+        PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        return contatoRepository.findAll(pageRequest);
     }
 
     @PatchMapping("{id}/favorito")
