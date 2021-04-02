@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ContatoService } from '../contato.service';
 import { Contato } from '../contato/contato';
 
 
@@ -13,7 +14,7 @@ export class ContatoDetalheComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ContatoDetalheComponent>,
-    @Inject(MAT_DIALOG_DATA) public contato: Contato
+    @Inject(MAT_DIALOG_DATA) public contato: Contato,
   ) { }
 
   ngOnInit(): void {
@@ -22,4 +23,5 @@ export class ContatoDetalheComponent implements OnInit {
   fechar() {
     this.dialogRef.close();
   }
+
 }

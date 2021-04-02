@@ -62,10 +62,8 @@
                 <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
             </table>
 
-            <mat-paginator  [length]="totalElementos" 
-                            [pageSize]="tamanho" 
-                            [pageSizeOptions]="pageSizeOptions"
-                            (page)="paginar($event)">
+            <mat-paginator [length]="totalElementos" [pageSize]="tamanho" [pageSizeOptions]="pageSizeOptions"
+                (page)="paginar($event)">
             </mat-paginator>
         </mat-card>
     </mat-tab>
@@ -78,19 +76,43 @@
             <mat-card-title>Novo Contato</mat-card-title>
             <form [formGroup]="formulario" (ngSubmit)="submit()">
                 <mat-form-field class="full-width">
-                    <mat-label> Nome </mat-label>
+                    <mat-label> Nome * </mat-label>
                     <input matInput placeholder="Digite seu nome" formControlName="nome" />
                 </mat-form-field>
+                <div *ngIf="formulario.controls.nome.errors 
+                        && !formulario.controls.nome.pristine">
+                        <mat-error *ngIf="formulario.controls.nome.errors.required">
+                            Campo nome é obrigatório.
+                        </mat-error>
+                </div>
 
                 <mat-form-field class="full-width">
-                    <mat-label> Telefone </mat-label>
+                    <mat-label> Telefone * </mat-label>
                     <input matInput placeholder="ex: 99 99999-9999" formControlName="fone" />
                 </mat-form-field>
+                <div *ngIf="formulario.controls.fone.errors 
+                        && !formulario.controls.fone.pristine">
+                    <mat-error *ngIf="formulario.controls.fone.errors.required">
+                        Campo telefone é obrigatório.
+                    </mat-error>
+                </div>
+
 
                 <mat-form-field class="full-width">
-                    <mat-label> Email </mat-label>
+                    <mat-label> Email * </mat-label>
                     <input matInput placeholder="ex: email@example.com" formControlName="email" />
                 </mat-form-field>
+                <div *ngIf="formulario.controls.email.errors 
+                        && !formulario.controls.email.pristine">
+                    <mat-error *ngIf="formulario.controls.email.errors.required">
+                        Campo nome é obrigatório.
+                    </mat-error>
+                    <mat-error *ngIf="formulario.controls.email.errors.email">
+                        Email inválido.
+                    </mat-error>
+                </div>
+                
+                <br>
                 <button mat-raised-button color='primary' [disabled]="!formulario.valid"> Adicionar </button>
             </form>
         </mat-card>
