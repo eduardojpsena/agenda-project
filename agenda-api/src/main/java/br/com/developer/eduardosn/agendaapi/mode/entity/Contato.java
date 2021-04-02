@@ -20,6 +20,9 @@ public class Contato {
     private String nome;
 
     @Column(length = 150, nullable = false)
+    private String fone;
+
+    @Column(length = 150, nullable = false)
     private String email;
 
     @Column

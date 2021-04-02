@@ -59,6 +59,7 @@ public class ContatoController {
                 InputStream is = arquivo.getInputStream();
                 byte[] bytes = new byte[(int) arquivo.getSize()];
                 IOUtils.readFully(is, bytes);
+                c.setFoto(bytes);
                 contatoRepository.save(c);
                 is.close();
                 return bytes;

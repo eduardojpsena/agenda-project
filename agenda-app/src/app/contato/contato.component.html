@@ -12,6 +12,24 @@
         <mat-card>
 
             <table mat-table [dataSource]="contatos" class="full-width">
+                <ng-container matColumnDef="foto">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let contato"> 
+                        <div *ngIf="contato.foto">
+                            <img    width="50" 
+                                    height="50" 
+                                    src="data:image/jpg;base64,{{ contato.foto }}"
+                                    (click)="visualizarContato(contato)"
+                            />
+                        </div>
+                        <div *ngIf="!contato.foto">
+                            <input type="file" name="foto" (change)="uploadFoto($event ,contato)">
+                        </div>
+                        
+                    </td>
+
+                </ng-container>
+
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> ID </th>
                     <td mat-cell *matCellDef="let contato"> {{contato.id}} </td>
@@ -20,6 +38,11 @@
                 <ng-container matColumnDef="nome">
                     <th mat-header-cell *matHeaderCellDef> Nome </th>
                     <td mat-cell *matCellDef="let contato"> {{contato.nome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fone">
+                    <th mat-header-cell *matHeaderCellDef> Telefone </th>
+                    <td mat-cell *matCellDef="let contato"> {{contato.fone}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="email">
@@ -54,12 +77,20 @@
             <form [formGroup]="formulario" (ngSubmit)="submit()">
                 <mat-form-field class="full-width">
                     <mat-label> Nome </mat-label>
-                    <input matInput placeholder="Digite seu nome" formControlName="nome" />
+                    <input matInput placeholder="Digite seu nome" 
+                            formControlName="nome" />
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label> Telefone </mat-label>
+                    <input matInput placeholder="ex: 99 99999-9999" 
+                            formControlName="fone"/>
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
                     <mat-label> Email </mat-label>
-                    <input matInput placeholder="Digite seu email" formControlName="email" />
+                    <input matInput placeholder="ex: email@example.com" 
+                            formControlName="email" />
                 </mat-form-field>
                 <button mat-raised-button color='primary' [disabled]="!formulario.valid"> Adicionar </button>
             </form>

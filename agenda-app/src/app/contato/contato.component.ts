@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContatoService } from '../contato.service';
 import { Contato } from './contato';
+import { MatDialog } from '@angular/material/dialog';
+import { ContatoDetalheComponent } from '../contato-detalhe/contato-detalhe.component';
 
 @Component({
   selector: 'app-contato',
@@ -12,11 +14,12 @@ export class ContatoComponent implements OnInit {
 
   formulario: FormGroup;
   contatos: Contato[] = [];
-  colunas = ['id', 'nome', 'email', 'favorito']
+  colunas = ['foto', 'id', 'nome', 'fone', 'email', 'favorito']
 
   constructor(
     private fb: FormBuilder,
-    private service: ContatoService
+    private service: ContatoService,
+    private dialog: MatDialog
   ) { };
 
   ngOnInit(): void {
@@ -27,6 +30,7 @@ export class ContatoComponent implements OnInit {
   montarFormulario() {
     this.formulario = this.fb.group({
       nome: ['', Validators.required],
+      fone: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]]
     })
   };
@@ -48,9 +52,31 @@ export class ContatoComponent implements OnInit {
       })
   };
 
+  uploadFoto(event, contato) {
+    const files = event.target.files;
+    if (files) {
+      const foto = files[0];
+      const formData: FormData = new FormData();
+      formData.append("foto", foto);
+      this.service
+          .upload(contato, formData)
+          .subscribe( response => {
+            this.listarContatos();
+          })     
+    }
+  };
+
+  visualizarContato(contato: Contato){
+    this.dialog.open(ContatoDetalheComponent, {
+      width: '400px',
+      height: '500px',
+      data: contato
+    })
+  };
+
   submit() {
     const formValues = this.formulario.value;
-    const contato: Contato = new Contato(formValues.nome, formValues.email);
+    const contato: Contato = new Contato(formValues.nome, formValues.fone ,formValues.email);
     contato.favorito = false;
     this.service
       .salvar(contato)
